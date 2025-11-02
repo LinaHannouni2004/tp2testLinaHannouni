@@ -12,6 +12,8 @@ import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
 
+import java.util.Scanner;
+
 public class Test5 {
     // Assistant conversationnel
     interface Assistant {
@@ -51,14 +53,29 @@ public class Test5 {
                         .contentRetriever(EmbeddingStoreContentRetriever.from(embeddingStore))
                         .build();
 
-        // Le LLM va utiliser l'information du fichier infos.txt pour répondre à la question.
-        String question = "Quel est l'objectif du cours 'Agents conversationnels en Java avec LangChain4j' de Richard Grin et quel slide vous avez trouvé l'information? ";
-        // L'assistant recherche dans la base vectorielle les informations les plus pertinentes
-        // pour répondre à la question, en comparant les embeddings de la base et celui de la question.
-        // Ces informations sont ajoutées à la question et le tout est envoyé au LLM.
-        String reponse = assistant.chat(question);
-        // Affiche la réponse du LLM.
-        System.out.println(reponse);
-        
+        conversationAvec(assistant);
+
+
+
+    }
+    private static void conversationAvec(Assistant assistant){
+
+        try (Scanner scanner = new Scanner(System.in)) {
+            while (true) {
+                System.out.println("==================================================");
+                System.out.println("Posez votre question : ");
+                String question = scanner.nextLine();
+                if (question.isBlank()) {
+                    continue;
+                }
+                System.out.println("==================================================");
+                if ("fin".equalsIgnoreCase(question)) {
+                    break;
+                }
+                String reponse = assistant.chat(question);
+                System.out.println("Assistant : " + reponse);
+                System.out.println("==================================================");
+            }
+        }
     }
 }
