@@ -21,7 +21,7 @@ public class Test1 {
 
         //posez une question
 
-        String reponse = model.chat("quel est la capitale du Maroc");
+        String reponse = model.chat("Comment s'appelle le chat de Pierre ?");
         System.out.println(reponse);
 
 
